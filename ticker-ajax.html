@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Ticker</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script>
+
+        function updateStockPrice(){
+                if(stockSymbol!=false){
+
+                    $(".stockSymbol").html(stockSymbol);
+
+                    $.ajax({url:'quote.txt',method:'get'}).done(function(response){
+                        $("#price").html(response);
+                    })
+                }
+
+        }
+
+        var stockSymbol=false;
+        $( document ).ready(function(){
+            setInterval(updateStockPrice,100);
+
+            $( "#formSubmit" ).click(function() {
+                stockSymbol=$("#stockSymbolInput").val();
+                $("#stockForm").hide();
+                $("#stockResults").show();
+            });
+
+            $( "#newTicker" ).click(function() {
+                stockSymbol=false;
+                $("#stockForm").show();
+                $("#stockResults").hide();
+            });
+
+
+        });
+
+    </script>
+
+
+</head>
+<body>
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="text-center">Stock Ticker</h1>
+    </div>
+</div>
+
+
+<div class="container" id="stockForm">
+
+    <div class="row text-center">
+        <p>Enter a stock symbol below</p>
+            <input type="text" name="q" id="stockSymbolInput" autocomplete="off">
+        <button id="formSubmit">Go</button>
+    </div>
+
+</div>
+
+
+<div class="container" id="stockResults" style="display: none">
+    <div class="row text-center">
+        <h4><strong>Current Price for <span class="stockSymbol"></span></strong></h4>
+    </div>
+
+    <div class="row text-center">
+        <h3><span class="stockSymbol"></span> is trading at <strong>$<span id="price"></span></strong></h3>
+
+    </div>
+
+    <div class="row">
+        <p align="center"><a href="ask.php" id="newTicker">Click here to choose another stock</a></p>
+    </div>
+
+</div>
+
+
+
+
+
+</body>
+</html>
+
+
+
